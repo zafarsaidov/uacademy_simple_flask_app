@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os
+import random
 
 load_dotenv("/var/devops/flask_app/.env")
 
@@ -26,6 +27,8 @@ def start():
 
 @app.route("/getdb", methods=["GET"])
 def getversion():
+    if (random.random() > 0.5):
+        return jsonify({"status": "error", "data": {}})
     response = {
         "postgres_host": postgres_host, 
         "postgres_port": postgres_port,
@@ -33,7 +36,7 @@ def getversion():
         "postgres_password": postgres_password,
         "postgres_db": postgres_db
     }
-    return jsonify(response)
+    return jsonify({"status": "success", "data": response})
 
 @app.route("/hi")
 def hi():
