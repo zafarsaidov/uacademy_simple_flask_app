@@ -10,6 +10,9 @@ postgres_port = os.getenv("POSTGRES_PORT", "5432")
 postgres_user = os.getenv("POSTGRES_USER", "postgres")
 postgres_password = os.getenv("POSTGRES_PASSWORD", "postgres")
 postgres_db = os.getenv("POSTGRES_DB", "postgres")
+application_host = os.getenv("APPLICATION_HOST", "0.0.0.0")
+application_port = os.getenv("APPLICATION_PORT", 8888)
+
 
 @app.route("/api/v1/user/sum", methods=["POST"])
 def start():
@@ -40,4 +43,4 @@ def hi():
 def bye():
     return "Bye"
 
-app.run(host="0.0.0.0", port=8888)
+app.run(host=application_host, port=application_port)
