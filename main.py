@@ -2,12 +2,14 @@ from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os
 
-load_dotenv("/tmp/.env")
+load_dotenv("/var/devops/flask_app/.env")
 
 app = Flask(__name__)
-version = os.getenv("VERSION", "1.1.0")
-node = os.getenv("NODE", "dev")
-
+postgres_host = os.getenv("POSTGRES_HOST", "localhost")
+postgres_port = os.getenv("POSTGRES_PORT", "5432")
+postgres_user = os.getenv("POSTGRES_USER", "postgres")
+postgres_password = os.getenv("POSTGRES_PASSWORD", "postgres")
+postgres_db = os.getenv("POSTGRES_DB", "postgres")
 
 @app.route("/api/v1/user/sum", methods=["POST"])
 def start():
@@ -19,9 +21,16 @@ def start():
     }
     return jsonify(d)
 
-@app.route("/api/v1/get/version", methods=["GET"])
+@app.route("/getdb", methods=["GET"])
 def getversion():
-    return jsonify({ "version": version, "node": node})
+    response = {
+        "postgres_host": postgres_host, 
+        "postgres_port": postgres_port,
+        "postgres_user": postgres_user,
+        "postgres_password": postgres_password,
+        "postgres_db": postgres_db
+    }
+    return jsonify(response)
 
 @app.route("/hi")
 def hi():
